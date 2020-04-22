@@ -10,7 +10,7 @@ case $key in
     shift # past argument
     shift # past value
     ;;
-    -d|--data_set)
+    -d|--dataset)
     DATASET="$2"
     shift # past argument
     shift # past value
