@@ -1,25 +1,30 @@
+import cv2
 import sys
-import pandas as pd
+import csv
 import numpy as np
-import matplotlib.pyplot as plt
 
 name = sys.argv[0]
+epoch_num = sys.argv[1]
+data_set = sys.argv[2]
+num_images = sys.argv[3]
+project = sys.argv[4]
 
-def plot_psnr(path_to_file, label):
-  data = pd.read_csv(path_to_file, header=None)
-  epochs = np.array(data[0])
-  psnr = np.array(data[1])
-  std = np.array(data[2])
+PSNRs = []
+for i in range(1, int(num_images)+1):
+  print(str(i) + "/" + str(num_images), end="\r")
+  img1 = cv2.imread(str(data_set)+"/test_B/{0}.jpg".format(i))
+  img2 = cv2.imread("results/"+str(project)+"/test_latest/images/{0}_synthesized_image.jpg".format(i))
+  assert(img1.shape == (1024, 1024, 3))
+  assert(img2.shape == (1024, 1024, 3))
 
-  plt.errorbar(epochs, psnr, yerr=std, fmt='o', label=label)
+  PSNRs.append(cv2.PSNR(img1, img2))
 
-print("Number of datasets: ", len(sys.argv)-1)
-for i in range(1, len(sys.argv)):
-  dataset = sys.argv[i]
-  plot_psnr(dataset, dataset)
+print("Data Set: ", data_set)
+print("Epoch: ", epoch_num)
+print("PSNR: ", np.mean(PSNRs), "+-", np.std(PSNRs))
+fields=[epoch_num, np.mean(PSNRs), np.std(PSNRs)]
+with open(r'PSNR/'+str(data_set)+'.csv', 'a') as f:
+  writer = csv.writer(f)
+  writer.writerow(fields)
 
-plt.xlabel("Number of Epochs")
-plt.ylabel("PSNR")
-plt.title("Peak Signal to Noise Ratio from Ground Truth")
-plt.legend()
-plt.savefig('psnr.png')
+
