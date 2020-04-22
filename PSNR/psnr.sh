@@ -35,11 +35,10 @@ do
 
   echo "Deleting old results..."
   rm -r results/
-  echo "$DATASET/test_A"
-  NUM_IMAGES=$(ls $DATASET/test_A |grep -v / | wc -l)
+  NUM_IMAGES=$(ls datasets/$DATASET/test_A |grep -v / | wc -l)
   echo "Running inference on $DATASET.. ($NUM_IMAGES images)"
-  python test.py --name $PROJECT --label_nc 0 --no_instance --loadSize 1024 --how_many $NUM_IMAGES --dataroot ./$DATASET
+  python3 test.py --name $PROJECT --label_nc 0 --no_instance --loadSize 1024 --how_many $NUM_IMAGES --dataroot ./datasets/$DATASET
   echo "Calculating PSNR on $DATASET, $EPOCH_NUM.."
-  python PSNR/psnr.py "$EPOCH_NUM" "$DATASET" $NUM_IMAGES $PROJECT
+  python3 PSNR/psnr.py "$EPOCH_NUM" "$DATASET" $NUM_IMAGES $PROJECT
 
 done
