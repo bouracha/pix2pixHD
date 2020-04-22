@@ -1,34 +1,44 @@
-#!bin/bash
+#!/bin/bash
+
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+    -e|--extension)
+    EXTENSION="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    -d|--data_set)
+    DATASET="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    *)    # unknown option
+    POSITIONAL+=("$1") # save it in an array for later
+    shift # past argument
+    ;;
+esac
+done
+
 
 cd ../
 
 for EPOCH_NUM in 130 140 150 160 170
-#EPOCH_NUM=170
 do
-  echo $EPOCH_NUM
+  echo "Data Set $DATASET, Epoch Number $EPOCH_NUM"
 
   echo "Copying new checkpoints..."
   cp checkpoints/vinci/"$EPOCH_NUM"_net_D.pth checkpoints/vinci/latest_net_D.pth
   cp checkpoints/vinci/"$EPOCH_NUM"_net_G.pth checkpoints/vinci/latest_net_G.pth
 
-  #echo "Deleting old results..."
-  #rm -r results/
-  #echo "Running inference on train images.."
-  #python test.py --name vinci --label_nc 0 --no_instance --loadSize 1024 --how_many 3000 --dataroot ./training_set
-  #echo "Calculating PSNR on train"
-  #python PSNR/psnr.py "$EPOCH_NUM" "training_set" 2761
-
   echo "Deleting old results..."
   rm -r results/
-  echo "Running inference on test images.."
-  python test.py --name vinci --label_nc 0 --no_instance --loadSize 1024 --how_many 3000 --dataroot ./test_set
-  echo "Calculating PSNR on test"
-  python PSNR/psnr.py "$EPOCH_NUM" "test_set" 2
+  NUM_IMAGES=$(ls $DATASET/test_A |grep -v / | wc -l)
+  echo "Running inference on $DATASET.. ($NUM_IMAGES images)"
+  python test.py --name vinci --label_nc 0 --no_instance --loadSize 1024 --how_many $NUM_IMAGES --dataroot ./$DATASET
+  echo "Calculating PSNR on $DATASET, $EPOCH_NUM.."
+  python PSNR/psnr.py "$EPOCH_NUM" "$DATASET" $NUM_IMAGES
 
-  echo "Deleting old results..."
-  rm -r results/
-  echo "Running inference on labelled test images.."
-  python test.py --name vinci --label_nc 0 --no_instance --loadSize 1024 --how_many 3000 --dataroot ./test_set_labelled
-  echo "Calculating PSNR on test"
-  python PSNR/psnr.py "$EPOCH_NUM" "test_set_labelled" 2
 done
