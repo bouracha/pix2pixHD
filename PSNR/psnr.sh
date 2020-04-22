@@ -5,8 +5,8 @@ do
 key="$1"
 
 case $key in
-    -e|--extension)
-    EXTENSION="$2"
+    -p|--project)
+    PROJECT="$2"
     shift # past argument
     shift # past value
     ;;
@@ -30,15 +30,15 @@ do
   echo "Data Set $DATASET, Epoch Number $EPOCH_NUM"
 
   echo "Copying new checkpoints..."
-  cp checkpoints/vinci/"$EPOCH_NUM"_net_D.pth checkpoints/vinci/latest_net_D.pth
-  cp checkpoints/vinci/"$EPOCH_NUM"_net_G.pth checkpoints/vinci/latest_net_G.pth
+  cp checkpoints/"$PROJECT"/"$EPOCH_NUM"_net_D.pth checkpoints/vinci/latest_net_D.pth
+  cp checkpoints/"$PROJECT"/"$EPOCH_NUM"_net_G.pth checkpoints/vinci/latest_net_G.pth
 
   echo "Deleting old results..."
   rm -r results/
   NUM_IMAGES=$(ls $DATASET/test_A |grep -v / | wc -l)
   echo "Running inference on $DATASET.. ($NUM_IMAGES images)"
-  python test.py --name vinci --label_nc 0 --no_instance --loadSize 1024 --how_many $NUM_IMAGES --dataroot ./$DATASET
+  python test.py --name $PROJECT --label_nc 0 --no_instance --loadSize 1024 --how_many $NUM_IMAGES --dataroot ./$DATASET
   echo "Calculating PSNR on $DATASET, $EPOCH_NUM.."
-  python PSNR/psnr.py "$EPOCH_NUM" "$DATASET" $NUM_IMAGES
+  python PSNR/psnr.py "$EPOCH_NUM" "$DATASET" $NUM_IMAGES $PROJECT
 
 done
