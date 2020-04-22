@@ -1,4 +1,4 @@
-# pix2pixHD_oxia
+## pix2pixHD_oxia
 
 -To calculate PSNR across epochs, first put checkpoints for project in checkpoints directory and dataset with subdirectories 'test_A' and 'test_B' in the main directory. Then runs script to produce csv for given project and dataset from the PSNR directory as (for example, for project 'vinci' and dataset directory 'datasets/test_set':
 ```bash
@@ -9,6 +9,7 @@ bash psnr.sh --project vinci --dataset datasets/test_set
 ```python
 python plot_psnr.py 'test_set1.csv' 'test_set2.csv'
 ```
+Resulting plot will appear in PSNR directory.
 
 
 <img src='imgs/teaser_720.gif' align="right" width=360>
