@@ -19,13 +19,11 @@ for i in range(1, int(num_images)+1):
 
   PSNRs.append(cv2.PSNR(img1, img2))
 
-with open('PSNR/'+str(data_set)+'.csv', "w") as my_empty_csv:
-  pass
 print("Data Set: ", data_set)
 print("Epoch: ", epoch_num)
 print("PSNR: ", np.mean(PSNRs), "+-", np.std(PSNRs))
 fields=[epoch_num, np.mean(PSNRs), np.std(PSNRs)]
-with open(r'PSNR/'+str(data_set)+'.csv', 'a') as f:
+with open('PSNR/'+str(data_set)+'.csv', 'a') as f:
   writer = csv.writer(f)
   writer.writerow(fields)
 
