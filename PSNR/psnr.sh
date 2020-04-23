@@ -25,6 +25,9 @@ done
 
 cd ../
 
+NUM_IMAGES=$(ls datasets/$DATASET/test_A |grep -v / | wc -l)
+echo "Calculating PSNR on $DATASET, prior to training.."
+python3 PSNR/psnr.py 0 "$DATASET" $NUM_IMAGES $PROJECT
 for EPOCH_NUM in 10 20 30 40 50 60 70 80 90 100 100 120 130 140 150 160 170 180 190 200
 do
   echo "Data Set $DATASET, Epoch Number $EPOCH_NUM"
@@ -35,7 +38,6 @@ do
 
   echo "Deleting old results..."
   rm -r results/
-  NUM_IMAGES=$(ls datasets/$DATASET/test_A |grep -v / | wc -l)
   echo "Running inference on $DATASET.. ($NUM_IMAGES images)"
   python3 test.py --name $PROJECT --label_nc 0 --no_instance --loadSize 1024 --how_many $NUM_IMAGES --dataroot ./datasets/$DATASET
   echo "Calculating PSNR on $DATASET, $EPOCH_NUM.."
