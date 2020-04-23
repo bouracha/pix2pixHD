@@ -25,13 +25,13 @@ done
 
 cd ../
 
-for EPOCH_NUM in 130 140 150 160 170
+for EPOCH_NUM in 10 20 30 40 50 60 70 80 90 100 100 120 130 140 150 160 170 180 190 200
 do
   echo "Data Set $DATASET, Epoch Number $EPOCH_NUM"
 
   echo "Copying new checkpoints..."
-  cp checkpoints/"$PROJECT"/"$EPOCH_NUM"_net_D.pth checkpoints/vinci/latest_net_D.pth
-  cp checkpoints/"$PROJECT"/"$EPOCH_NUM"_net_G.pth checkpoints/vinci/latest_net_G.pth
+  cp checkpoints/"$PROJECT"/"$EPOCH_NUM"_net_D.pth checkpoints/"$PROJECT"/latest_net_D.pth
+  cp checkpoints/"$PROJECT"/"$EPOCH_NUM"_net_G.pth checkpoints/"$PROJECT"/latest_net_G.pth
 
   echo "Deleting old results..."
   rm -r results/
