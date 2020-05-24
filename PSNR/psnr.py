@@ -12,7 +12,7 @@ project = sys.argv[4]
 
 image_list = os.listdir("datasets/"+str(data_set)+"/test_B")
 PSNRs = []
-for i in len(image_list):
+for i in image_list:
   print(str(i) + "/" + str(num_images), end="\r")
   name = i[:-4]
   img1 = cv2.imread("datasets/"+str(data_set)+"/test_B/{0}".format(i))
