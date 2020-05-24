@@ -18,7 +18,7 @@ for i in image_list:
   img1 = IMAGE(path_to_image="datasets/" + str(data_set) + "/test_B", name_of_image=str(i))
   name = i[:-4]
   img2 = IMAGE(path_to_image="results/" + str(project) + "/test_latest/images",
-               name_of_image=str(name)+"_synthesized_image.jpg")
+               name_of_image="{0}_synthesized_image.jpg".format(name))
   if (img1.valid_image == False) or (img2.valid_image == False):
     continue
   assert(img1.shape() == img2.shape())

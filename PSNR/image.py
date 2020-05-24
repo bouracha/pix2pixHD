@@ -18,7 +18,8 @@ class IMAGE(object):
             self.image = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
             self.n_H, self.n_W = self.image.shape
         else:
-            self.image = cv2.imread(str(path_to_image) + str(name_of_image))
+            print(str(path_to_image) + '/' + str(name_of_image))
+            self.image = cv2.imread(str(path_to_image) + '/' + str(name_of_image))
             self.n_H, self.n_W, self.n_C = self.image.shape
 
     def check_valid_extension(self, name_of_image):
