@@ -10,7 +10,7 @@ data_set = sys.argv[2]
 num_images = sys.argv[3]
 project = sys.argv[4]
 
-image_list = os.listdir(opt.data_dir)
+image_list = os.listdir("datasets/"+str(data_set)+"/test_B/{0}")
 PSNRs = []
 for i in len(image_list):
   print(str(i) + "/" + str(num_images), end="\r")
