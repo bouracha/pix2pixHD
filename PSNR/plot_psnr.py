@@ -11,7 +11,7 @@ def plot_psnr(path_to_file, label):
   psnr = np.array(data[1])
   std = np.array(data[2])
 
-  plt.errorbar(epochs, psnr, yerr=std, fmt='o', label=label)
+  plt.errorbar(epochs, psnr, yerr=std, fmt='-o', label=label)
 
 print("Number of datasets: ", len(sys.argv)-1)
 for i in range(1, len(sys.argv)):

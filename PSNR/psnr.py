@@ -15,6 +15,7 @@ PSNRs = []
 for i in image_list:
   print(str(i) + "/" + str(num_images), end="\r")
   name = i[:-4]
+  print("datasets/"+str(data_set)+"/test_B/{0}")
   img1 = cv2.imread("datasets/"+str(data_set)+"/test_B/{0}".format(i))
   img2 = cv2.imread("results/"+str(project)+"/test_latest/images/{0}_synthesized_image.jpg".format(name))
   assert(img1.shape == (1024, 1024, 3))
